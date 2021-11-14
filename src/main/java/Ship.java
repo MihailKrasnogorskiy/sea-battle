@@ -36,6 +36,9 @@ public class Ship {
             // при первом вызове метода validation, который проверяет "линейность" ввода координат,
             // аргументу "а" присваивается значение 0 в обязательном порядке
             if (validation(shipCoordinates, 0)) {
+                if (validationInHalo(shipCoordinates)) {
+                    System.out.println("Ваш корабль заходит на ореол другого, давайте попробуем ещё раз");
+                }
                 return shipCoordinates;
             }
             System.out.println("Вы ошиблись, давайте поробуем ещё раз");
@@ -48,9 +51,9 @@ public class Ship {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < ship.getCoordinates().length + 1; j++) {
                     haloCoordinates[0] = ship.getCoordinates()[0] + i;
-                    if (haloCoordinates[0] < 0 || haloCoordinates[0] > 9) continue;
+                    if (haloCoordinates[0] < Battlefield.MIN_INDEX || haloCoordinates[0] > Battlefield.MAX_INDEX) continue;
                     haloCoordinates[1] = ship.getCoordinates()[1] + j;
-                    if (haloCoordinates[1] < 0 || haloCoordinates[1] > 9) continue;
+                    if (haloCoordinates[1] < Battlefield.MIN_INDEX || haloCoordinates[1] > Battlefield.MAX_INDEX) continue;
                     Halo halo = new Halo(ship, haloCoordinates);
                     halo.getHaloHashMap().put(haloCoordinates, halo);
                 }
@@ -59,13 +62,26 @@ public class Ship {
             for (int i = -1; i < ship.getCoordinates().length + 1; i++) {
                 for (int j = -1; j < 2; j++) {
                     haloCoordinates[0] = ship.getCoordinates()[0] + i;
-                    if (haloCoordinates[0] < 0 || haloCoordinates[0] > 9) continue;
+                    if (haloCoordinates[0] < Battlefield.MIN_INDEX || haloCoordinates[0] > Battlefield.MAX_INDEX) continue;
                     haloCoordinates[1] = ship.getCoordinates()[1] + j;
-                    if (haloCoordinates[1] < 0 || haloCoordinates[1] > 9) continue;
+                    if (haloCoordinates[1] < Battlefield.MIN_INDEX || haloCoordinates[1] > Battlefield.MAX_INDEX) continue;
                     Halo halo = new Halo(ship, haloCoordinates);
                     halo.getHaloHashMap().put(haloCoordinates, halo);
                 }
             }
         }
+    }
+    // Если метод возвращает true, то корабль оппадает в ореол другого корабля
+    private static boolean validationInHalo(int[] shipCoordinates) {
+        boolean validation = false;
+        int[] validationCoordinates = {0, 0};
+        if (shipCoordinates.length > 2) {
+            for (int i = 0; i < shipCoordinates.length - 1; i = i + 2) {
+                validationCoordinates[i] = shipCoordinates[i];
+                validationCoordinates[i + 1] = shipCoordinates[i + 1];
+                validation = Halo.getHaloHashMap().containsKey(validationCoordinates);
+            }
+        } else validation = Halo.getHaloHashMap().containsKey(shipCoordinates);
+        return validation;
     }
 }

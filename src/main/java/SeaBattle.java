@@ -18,7 +18,7 @@ public class SeaBattle {
             boolean validate = false;
             for (int i = 0; i < splitLine.length; i++) {
                 coordinates[i] = Integer.parseInt(splitLine[i]);
-                if (coordinates[i] < 0 || coordinates[i] > 9) validate = true;
+                if (coordinates[i] < Battlefield.MIN_INDEX || coordinates[i] > Battlefield.MAX_INDEX) validate = true;
             }
             if (validate) {
                 System.out.println("Ввод не корректен, повторите ввод");
