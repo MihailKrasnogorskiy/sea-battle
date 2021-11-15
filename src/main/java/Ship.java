@@ -12,7 +12,7 @@ public class Ship {
                 validation = false;
             }
         }
-        if (validation == false) {
+        if (!validation) {
             a++;
             if (a > 1) return false;
             return validation(shipCoordinates, a);
@@ -32,7 +32,7 @@ public class Ship {
         String[] shipsName = {"одно", "двух", "трёх", "четырёх"};
         while (true) {
             System.out.println("Введите координаты " + shipsName[deks - 1] + "палубного корабля (формат: х,у;х,у и т.д.)");
-            shipCoordinates = SeaBattle.validationCoordinates(deks);
+            shipCoordinates = SeaBattle.inputCoordinates(deks);
             // при первом вызове метода validation, который проверяет "линейность" ввода координат,
             // аргументу "а" присваивается значение 0 в обязательном порядке
             if (validation(shipCoordinates, 0)) {
