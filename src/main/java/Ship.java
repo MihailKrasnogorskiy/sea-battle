@@ -74,6 +74,10 @@ public class Ship {
                     Halo halo = new Halo(ship, haloCoordinates);
                     String stringHaloCoordinates = String.valueOf(haloCoordinates[0]) + String.valueOf(haloCoordinates[1]);
                     ship.battlefield.getHaloHashMap().put(stringHaloCoordinates, halo);
+                    boolean shipPosition = ship.battlefield.getPrintBattlefield()[haloCoordinates[0]][haloCoordinates[1]].equals(ship.toString());
+                    if (!shipPosition) {
+                        ship.battlefield.getPrintBattlefield()[haloCoordinates[0]][haloCoordinates[1]] = halo.toString();
+                    }
                 }
             }
         } else {
@@ -88,6 +92,10 @@ public class Ship {
                     Halo halo = new Halo(ship, haloCoordinates);
                     String stringHaloCoordinates = String.valueOf(haloCoordinates[0]) + String.valueOf(haloCoordinates[1]);
                     ship.battlefield.getHaloHashMap().put(stringHaloCoordinates, halo);
+                    boolean shipPosition = ship.battlefield.getPrintBattlefield()[haloCoordinates[0]][haloCoordinates[1]].equals(ship.toString());
+                    if (!shipPosition) {
+                        ship.battlefield.getPrintBattlefield()[haloCoordinates[0]][haloCoordinates[1]] = halo.toString();
+                    }
                 }
             }
         }
@@ -109,7 +117,12 @@ public class Ship {
         for (int i = 0; i < shipCoordinates.length - 1; i = i + 2) {
             String deckCoordinates = String.valueOf(shipCoordinates[i]) + String.valueOf(shipCoordinates[i + 1]);
             battlefield.getShipsHashMap().put(deckCoordinates, ship);
+            battlefield.getPrintBattlefield()[shipCoordinates[i]][shipCoordinates[i + 1]] = ship.toString();
         }
         generateHalo(ship);
+    }
+
+    public String toString() {
+        return "\u26F5";
     }
 }

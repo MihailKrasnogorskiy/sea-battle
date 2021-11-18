@@ -10,4 +10,7 @@ public class Halo {
         this.haloCoordinates = haloCoordinates;
     }
 
+    public String toString() {
+        return "\u26AA";
+    }
 }
