@@ -2,10 +2,6 @@ public class Ship {
     private int[] coordinates;
     private Battlefield battlefield;
 
-    public Battlefield getBattlefield() {
-        return battlefield;
-    }
-
     public int[] getCoordinates() {
         return coordinates;
     }
@@ -20,6 +16,7 @@ public class Ship {
         for (int i = a; i <= shipCoordinates.length - 4 + a; i = i + 2) {
             if (shipCoordinates[i] != shipCoordinates[i + 2]) {
                 validation = false;
+                break;
             }
         }
         if (!validation) {
@@ -37,18 +34,19 @@ public class Ship {
         return true;
     }
 
-    public static int[] inputCoordinatesShip(int deks, Battlefield battlefield) {
-        int[] shipCoordinates = new int[deks * 2];
+    public static int[] inputCoordinatesShip(int decks, Battlefield battlefield) {
+        int[] shipCoordinates;
         String[] shipsName = {"одно", "двух", "трёх", "четырёх"};
         while (true) {
-            System.out.println("Введите координаты " + shipsName[deks - 1] + "палубного корабля (формат: х,у;х,у и т.д.)");
-            shipCoordinates = SeaBattle.inputCoordinates(deks);
+            System.out.println("Введите координаты " + shipsName[decks - 1] + "палубного корабля (формат: х,у;х,у и т.д.)");
+            shipCoordinates = SeaBattle.inputCoordinates(decks);
             // при первом вызове метода validation, который проверяет "линейность" ввода координат,
             // аргументу "а" присваивается значение 0 в обязательном порядке
             if (validation(shipCoordinates, 0)) {
                 if (validationInHalo(shipCoordinates, battlefield)) {
                     System.out.println("Ваш корабль заходит на ореол другого, давайте попробуем ещё раз");
                     continue;
+
                 }
                 return shipCoordinates;
             }
@@ -71,12 +69,12 @@ public class Ship {
                     haloCoordinates[1] = ship.getCoordinates()[1] + j;
                     if (haloCoordinates[1] < Battlefield.MIN_INDEX || haloCoordinates[1] > Battlefield.MAX_INDEX)
                         continue;
-                    Halo halo = new Halo(ship, haloCoordinates);
-                    String stringHaloCoordinates = String.valueOf(haloCoordinates[0]) + String.valueOf(haloCoordinates[1]);
+                    Halo halo = new Halo();
+                    String stringHaloCoordinates = String.valueOf(haloCoordinates[0]) + haloCoordinates[1];
                     ship.battlefield.getHaloHashMap().put(stringHaloCoordinates, halo);
-                    boolean shipPosition = ship.battlefield.getPrintBattlefield()[haloCoordinates[0]][haloCoordinates[1]].equals(ship.toString());
+                    boolean shipPosition = ship.battlefield.getPrintBattlefield()[haloCoordinates[1]][haloCoordinates[0]].equals(ship.toString());
                     if (!shipPosition) {
-                        ship.battlefield.getPrintBattlefield()[haloCoordinates[0]][haloCoordinates[1]] = halo.toString();
+                        ship.battlefield.getPrintBattlefield()[haloCoordinates[1]][haloCoordinates[0]] = halo.toString();
                     }
                 }
             }
@@ -89,12 +87,12 @@ public class Ship {
                     haloCoordinates[1] = ship.getCoordinates()[1] + j;
                     if (haloCoordinates[1] < Battlefield.MIN_INDEX || haloCoordinates[1] > Battlefield.MAX_INDEX)
                         continue;
-                    Halo halo = new Halo(ship, haloCoordinates);
-                    String stringHaloCoordinates = String.valueOf(haloCoordinates[0]) + String.valueOf(haloCoordinates[1]);
+                    Halo halo = new Halo();
+                    String stringHaloCoordinates = haloCoordinates[0] + String.valueOf(haloCoordinates[1]);
                     ship.battlefield.getHaloHashMap().put(stringHaloCoordinates, halo);
-                    boolean shipPosition = ship.battlefield.getPrintBattlefield()[haloCoordinates[0]][haloCoordinates[1]].equals(ship.toString());
+                    boolean shipPosition = ship.battlefield.getPrintBattlefield()[haloCoordinates[1]][haloCoordinates[0]].equals(ship.toString());
                     if (!shipPosition) {
-                        ship.battlefield.getPrintBattlefield()[haloCoordinates[0]][haloCoordinates[1]] = halo.toString();
+                        ship.battlefield.getPrintBattlefield()[haloCoordinates[1]][haloCoordinates[0]] = halo.toString();
                     }
                 }
             }
@@ -105,19 +103,19 @@ public class Ship {
     private static boolean validationInHalo(int[] shipCoordinates, Battlefield battlefield) {
         boolean validation = false;
         for (int i = 0; i < shipCoordinates.length - 1; i = i + 2) {
-            String validationCoordinates = String.valueOf(shipCoordinates[i]) + String.valueOf(shipCoordinates[i + 1]);
+            String validationCoordinates = shipCoordinates[i] + String.valueOf(shipCoordinates[i + 1]);
             validation = battlefield.getHaloHashMap().containsKey(validationCoordinates);
         }
         return validation;
     }
 
-    public static void generateShip(int deсks, Battlefield battlefield) {
-        int[] shipCoordinates = inputCoordinatesShip(deсks, battlefield);
+    public static void generateShip(int decks, Battlefield battlefield) {
+        int[] shipCoordinates = inputCoordinatesShip(decks, battlefield);
         Ship ship = new Ship(battlefield, shipCoordinates);
         for (int i = 0; i < shipCoordinates.length - 1; i = i + 2) {
-            String deckCoordinates = String.valueOf(shipCoordinates[i]) + String.valueOf(shipCoordinates[i + 1]);
+            String deckCoordinates = shipCoordinates[i] + String.valueOf(shipCoordinates[i + 1]);
             battlefield.getShipsHashMap().put(deckCoordinates, ship);
-            battlefield.getPrintBattlefield()[shipCoordinates[i]][shipCoordinates[i + 1]] = ship.toString();
+            battlefield.getPrintBattlefield()[shipCoordinates[i + 1]][shipCoordinates[i]] = ship.toString();
         }
         generateHalo(ship);
     }

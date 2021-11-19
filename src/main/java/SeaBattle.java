@@ -10,7 +10,7 @@ public class SeaBattle {
         player1.generateBattlefield();
         player2.generateBattlefield();
         Random rand = new Random();
-        if (rand.nextInt(11) < 5) {
+        if (rand.nextInt(2) + 1 == 1) {
             while (true) {
                 if (player1.fight(player2)) return;
                 if (player2.fight(player1)) return;
@@ -28,7 +28,7 @@ public class SeaBattle {
         while (true) {
             Scanner scanner = new Scanner(System.in);
             String line = scanner.nextLine();
-            String[] splitLine = line.split(",|;");
+            String[] splitLine = line.split("[,;]");
             if (splitLine.length != decks * 2) {
                 System.out.println("Количество координат не соответствует кораблю");
                 continue;
@@ -36,7 +36,7 @@ public class SeaBattle {
             for (int i = 0; i < splitLine.length; i++) {
                 coordinates[i] = Integer.parseInt(splitLine[i]);
             }
-            if (!validationCoordinates(coordinates, decks)) {
+            if (!validationCoordinates(coordinates)) {
                 System.out.println("Координаты выходят за границы игрового поля, повторите ввод");
                 continue;
             }
@@ -44,11 +44,12 @@ public class SeaBattle {
         }
     }
 
-    private static boolean validationCoordinates(int[] coordinates, int decks) {
+    private static boolean validationCoordinates(int[] coordinates) {
         boolean validate = true;
-        for (int i = 0; i < coordinates.length; i++) {
-            if (coordinates[i] < Battlefield.MIN_INDEX || coordinates[i] > Battlefield.MAX_INDEX) {
+        for (int coordinate : coordinates) {
+            if (coordinate < Battlefield.MIN_INDEX || coordinate > Battlefield.MAX_INDEX) {
                 validate = false;
+                break;
             }
         }
         return validate;
