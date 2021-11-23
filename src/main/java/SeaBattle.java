@@ -33,8 +33,13 @@ public class SeaBattle {
                 System.out.println("Количество координат не соответствует кораблю");
                 continue;
             }
-            for (int i = 0; i < splitLine.length; i++) {
-                coordinates[i] = Integer.parseInt(splitLine[i]);
+            try {
+                for (int i = 0; i < splitLine.length; i++) {
+                    coordinates[i] = Integer.parseInt(splitLine[i]);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Вы ошиблись, формат ввода х1,у1;х2,у2.... например 0,1;0,2;0,3;0,4 \n Давайте попробуем ещё раз:");
+                continue;
             }
             if (!validationCoordinates(coordinates)) {
                 System.out.println("Координаты выходят за границы игрового поля, повторите ввод");

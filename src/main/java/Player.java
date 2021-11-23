@@ -25,14 +25,23 @@ public class Player {
     public void generateBattlefield() {
         System.out.println(this.name + ", расставьте свои корабли");
         Ship.generateShip(4, getMyBattlefield());
+        myBattlefield.print();
         Ship.generateShip(3, getMyBattlefield());
+        myBattlefield.print();
         Ship.generateShip(3, getMyBattlefield());
+        myBattlefield.print();
         Ship.generateShip(2, getMyBattlefield());
+        myBattlefield.print();
         Ship.generateShip(2, getMyBattlefield());
+        myBattlefield.print();
         Ship.generateShip(2, getMyBattlefield());
+        myBattlefield.print();
         Ship.generateShip(1, getMyBattlefield());
+        myBattlefield.print();
         Ship.generateShip(1, getMyBattlefield());
+        myBattlefield.print();
         Ship.generateShip(1, getMyBattlefield());
+        myBattlefield.print();
         Ship.generateShip(1, getMyBattlefield());
         myBattlefield.print();
     }

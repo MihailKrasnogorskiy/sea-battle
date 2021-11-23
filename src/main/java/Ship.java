@@ -105,6 +105,7 @@ public class Ship {
         for (int i = 0; i < shipCoordinates.length - 1; i = i + 2) {
             String validationCoordinates = shipCoordinates[i] + String.valueOf(shipCoordinates[i + 1]);
             validation = battlefield.getHaloHashMap().containsKey(validationCoordinates);
+            if (validation) break;
         }
         return validation;
     }
